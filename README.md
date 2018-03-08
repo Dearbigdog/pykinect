@@ -1,6 +1,6 @@
 # pykinect
 
-Tried again setting the env for kinect2.0 + python2.7
+Tried again setting the env for ubuntu + kinect2.0 + python2.7
 
 #### step1: git clone libfreenect2 & build it. It will generate a folder named 'freenect2'
 

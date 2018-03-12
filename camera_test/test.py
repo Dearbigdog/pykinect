@@ -55,7 +55,7 @@ registered = Frame(512, 424, 4)
 # Optinal parameters for registration
 # set True if you need
 need_bigdepth = False
-need_color_depth_map = False
+need_color_depth_map = True
 
 bigdepth = Frame(1920, 1082, 4) if need_bigdepth else None
 color_depth_map = np.zeros((424, 512),  np.int32).ravel() \
@@ -63,7 +63,7 @@ color_depth_map = np.zeros((424, 512),  np.int32).ravel() \
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-
+m=0
 while True:
     frames = listener.waitForNewFrame()
 
@@ -79,19 +79,34 @@ while True:
     # cv2.imshow without OpenGL backend seems to be quite slow to draw all
     # things below. Try commenting out some imshow if you don't have a fast
     # visualization backend.
-    '''
-    outname = open("ir","wb")
+
+    ir_name='./img/ir'+str(m)+'.raw'
+    depth_name = './img/depth' + str(m)+'.raw'
+    color_name = './img/color' + str(m)+'.raw'
+
+
+    outname = open(ir_name,"wb")
+    np.save(outname, ir.asarray())
+    outname.close()
+
+    outname = open(depth_name,"wb")
     np.save(outname, depth.asarray())
     outname.close()
-    '''
 
-    im = ax.imshow(depth.asarray() / 4500.)
+    outname = open(color_name,"wb")
+    np.save(outname, color.asarray())
+    outname.close()
+
+
+    im = ax.imshow(ir.asarray())
     plt.ion()
 
-    im.set_data(ir.asarray()/ 65535.)
 
-    plt.pause(0.01)
+    im.set_data(ir.asarray())
 
+    plt.pause(0.1)
+
+    m=m+1
 
 
     '''
